@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Profile Evaluation Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🎓 CareerVault</div>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="progress-bar">
+                    <div class="progress-text">Progress</div>
+                    <div class="progress-fill">
+                        <div class="progress-bar-inner" id="progressBarInner" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="steps">
+                    <div class="step-item active" data-step="1">Personal Profile</div>
+                    <div class="step-item" data-step="2">Career Goal</div>
+                    <div class="step-item" data-step="3">Skills & Tools</div>
+                    <div class="step-item" data-step="4">Projects</div>
+                    <div class="step-item" data-step="5">Academic Details</div>
+                    <div class="step-item" data-step="6">Resume & Links</div>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form id="mainForm">
+                    <!-- Step 1: Personal Profile -->
+                    <div class="form-step active" data-step="1">
+                        <div class="form-title">Personal & Academic Profile</div>
+                        <div class="form-subtitle">Let's start with your basic information</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone <span class="required">*</span></label>
+                                <input type="tel" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>College Name <span class="required">*</span></label>
+                                <input type="text" name="collegeName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Degree <span class="required">*</span></label>
+                                <select name="degree" required>
+                                    <option value="">Select degree</option>
+                                    <option value="BTech">BTech</option>
+                                    <option value="MTech">MTech</option>
+                                    <option value="BCA">BCA</option>
+                                    <option value="MCA">MCA</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Branch <span class="required">*</span></label>
+                                <select name="branch" required>
+                                    <option value="">Select branch</option>
+                                    <option value="CSE">CSE</option>
+                                    <option value="IT">IT</option>
+                                    <option value="AI/ML">AI/ML</option>
+                                    <option value="ECE">ECE</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Current Year <span class="required">*</span></label>
+                                <select name="currentYear" required>
+                                    <option value="">Select year</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Current CGPA (0-10) <span class="required">*</span></label>
+                                <input type="number" name="currentCGPA" min="0" max="10" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Have Backlogs?</label>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" class="toggle" name="backlogs" id="backlogs">
+                                    <span class="switch-slider"></span>
+                                </label>
+                                <span id="backlogsLabel">No</span>
+                            </div>
+                            <input type="number" name="backlogsCount" id="backlogsCount" min="0" placeholder="Number of backlogs" style="display: none; margin-top: 12px;">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>10th Score (%) <span class="required">*</span></label>
+                                <input type="number" name="tenthPercent" min="0" max="100" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>12th Score (%) <span class="required">*</span></label>
+                                <input type="number" name="twelfthPercent" min="0" max="100" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Career Goal -->
+                    <div class="form-step" data-step="2">
+                        <div class="form-title">Your Career Goal (AIM)</div>
+                        <div class="form-subtitle">Help us understand your career aspirations</div>
+
+                        <div class="form-group form-row full">
+                            <label>Career Objective <span class="required">*</span></label>
+                            <textarea name="aim" placeholder="Describe your career goals (max 150 words)" maxlength="150" required></textarea>
+                            <div class="input-helper"><span id="aimCount">0</span>/150 words</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preferred Domains <span class="required">*</span></label>
+                            <div class="multi-select-grid">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="SDE">
+                                    <span>SDE</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="AI/ML">
+                                    <span>AI/ML</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Data Science">
+                                    <span>Data Science</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Cybersecurity">
+                                    <span>Cybersecurity</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Full Stack">
+                                    <span>Full Stack</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="DevOps">
+                                    <span>DevOps</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-row full">
+                            <label>Preferred Companies</label>
+                            <div class="tags-input" id="companiesTags">
+                                <input type="text" class="tags-input-field" id="companiesInput" placeholder="Type company name and press Enter">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Expected Salary Range (LPA) <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>5 LPA</span>
+                                <input type="range" name="expectedSalary" min="5" max="100" value="20" required>
+                                <span class="slider-value" id="salaryValue">20</span>
+                                <span>100 LPA</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Target Timeline <span class="required">*</span></label>
+                            <select name="targetTimeline" required>
+                                <option value="">Select timeline</option>
+                                <option value="3-months">3 Months</option>
+                                <option value="6-months">6 Months</option>
+                                <option value="1-year">1 Year</option>
+                                <option value="2-years">2 Years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Skills & Tools -->
+                    <div class="form-step" data-step="3">
+                        <div class="form-title">Skills & Tools</div>
+                        <div class="form-subtitle">Rate your technical proficiency (1-5)</div>
+
+                        <div class="form-group">
+                            <label>DSA (Data Structures & Algorithms) <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>Beginner</span>
+                                <input type="range" name="dsa" min="1" max="5" value="3" required class="skill-slider">
+                                <span class="slider-value" id="dsaValue">3</span>
+                                <span>Expert</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Web Development <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>Beginner</span>
+                                <input type="range" name="webDev" min="1" max="5" value="3" required class="skill-slider">
+                                <span class="slider-value" id="webDevValue">3</span>
+                                <span>Expert</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ML/AI <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>Beginner</span>
+                                <input type="range" name="mlAi" min="1" max="5" value="3" required class="skill-slider">
+                                <span class="slider-value" id="mlAiValue">3</span>
+                                <span>Expert</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>DBMS <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>Beginner</span>
+                                <input type="range" name="dbms" min="1" max="5" value="3" required class="skill-slider">
+                                <span class="slider-value" id="dbmsValue">3</span>
+                                <span>Expert</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>OS <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>Beginner</span>
+                                <input type="range" name="os" min="1" max="5" value="3" required class="skill-slider">
+                                <span class="slider-value" id="osValue">3</span>
+                                <span>Expert</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Networking <span class="required">*</span></label>
+                            <div class="slider-container">
+                                <span>Beginner</span>
+                                <input type="range" name="networking" min="1" max="5" value="3" required class="skill-slider">
+                                <span class="slider-value" id="networkingValue">3</span>
+                                <span>Expert</span>
+                            </div>
+                        </div>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-title" style="font-size: 18px; margin-bottom: 20px;">Tools & Platforms</div>
+
+                        <div class="form-group">
+                            <label>GitHub URL</label>
+                            <input type="url" name="githubUrl" placeholder="https://github.com/yourprofile">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Docker</label>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" class="toggle" name="docker">
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cloud Platforms</label>
+                            <div class="multi-select-grid">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="cloudPlatforms" value="AWS">
+                                    <span>AWS</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="cloudPlatforms" value="GCP">
+                                    <span>GCP</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="cloudPlatforms" value="Azure">
+                                    <span>Azure</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Linux</label>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" class="toggle" name="linux">
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-title" style="font-size: 18px; margin-bottom: 20px;">Coding Profiles</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>LeetCode URL</label>
+                                <input type="url" name="leetcodeUrl" placeholder="https://leetcode.com/yourprofile">
+                            </div>
+                            <div class="form-group">
+                                <label>Problems Solved</label>
+                                <input type="number" name="leetcodeProblems" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Codeforces Rating</label>
+                                <input type="number" name="codeforcesRating" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>CodeChef Rating</label>
+                                <input type="number" name="codechefRating" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Projects & Experience -->
+                    <div class="form-step" data-step="4">
+                        <div class="form-title">Projects & Experience</div>
+                        <div class="form-subtitle">Showcase your work and experience</div>
+
+                        <div id="projectsList"></div>
+                        <button type="button" class="btn btn-secondary" id="addProjectBtn">+ Add Project</button>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-title" style="font-size: 18px; margin-bottom: 20px;">Internship Experience</div>
+
+                        <div id="internshipsList"></div>
+                        <button type="button" class="btn btn-secondary" id="addInternshipBtn">+ Add Internship</button>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-group form-row full">
+                            <label>Certifications</label>
+                            <textarea name="certifications" placeholder="List your certifications"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Academic Performance -->
+                    <div class="form-step" data-step="5">
+                        <div class="form-title">Academic Performance</div>
+                        <div class="form-subtitle">Detailed academic metrics</div>
+
+                        <div id="semestersList"></div>
+                        <button type="button" class="btn btn-secondary" id="addSemesterBtn" style="margin-bottom: 30px;">+ Add Semester</button>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-title" style="font-size: 18px; margin-bottom: 20px;">Subject-wise Marks</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>DSA</label>
+                                <input type="number" name="subjectDSA" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label>DBMS</label>
+                                <input type="number" name="subjectDBMS" min="0" max="100">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>OS</label>
+                                <input type="number" name="subjectOS" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Computer Networks</label>
+                                <input type="number" name="subjectCN" min="0" max="100">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>OOP</label>
+                            <input type="number" name="subjectOOP" min="0" max="100">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Attendance (%)</label>
+                            <input type="number" name="attendance" min="0" max="100" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Resume & Profiles -->
+                    <div class="form-step" data-step="6">
+                        <div class="form-title">Resume & Online Profiles</div>
+                        <div class="form-subtitle">Help recruiters find you easily</div>
+
+                        <div class="form-group form-row full">
+                            <label>Resume (PDF)</label>
+                            <input type="file" name="resume" accept=".pdf" id="resumeUpload">
+                            <div class="input-helper">Upload your resume in PDF format</div>
+                            <div id="resumeFileName"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>LinkedIn URL <span class="required">*</span></label>
+                            <input type="url" name="linkedinUrl" placeholder="https://linkedin.com/in/yourprofile" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Portfolio Website</label>
+                            <input type="url" name="portfolioUrl" placeholder="https://yourportfolio.com">
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">← Previous</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>
