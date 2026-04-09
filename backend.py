@@ -15,8 +15,15 @@ from urllib.parse import urlparse
 
 import pandas as pd
 from pypdf import PdfReader
-from pdf2image import convert_from_bytes
-import pytesseract
+try:
+    from pdf2image import convert_from_bytes
+except Exception:
+    convert_from_bytes = None
+
+try:
+    import pytesseract
+except Exception:
+    pytesseract = None
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -313,22 +320,23 @@ def _extract_pdf_text_from_base64(pdf_base64: str) -> str:
         if extracted_text and len(extracted_text.split()) > 50:
             return extracted_text
         
-        # Fallback: Try OCR on PDF pages (for scanned PDFs)
-        try:
-            # Check if Tesseract is installed
-            pytesseract.get_tesseract_version()
-            
-            images = convert_from_bytes(raw, first_page=1, last_page=3)  # First 3 pages
-            ocr_text = []
-            for image in images:
-                text = pytesseract.image_to_string(image)
-                if text.strip():
-                    ocr_text.append(text)
-            
-            if ocr_text:
-                return "\n".join(ocr_text).strip()
-        except (pytesseract.TesseractNotFoundError, Exception) as ocr_err:
-            print(f"OCR not available or failed: {ocr_err}. Make sure Tesseract is installed (brew install tesseract on macOS)")
+        # Fallback: Try OCR on PDF pages (for scanned PDFs) when OCR deps are available.
+        if pytesseract is not None and convert_from_bytes is not None:
+            try:
+                # Check if Tesseract binary is installed and reachable.
+                pytesseract.get_tesseract_version()
+
+                images = convert_from_bytes(raw, first_page=1, last_page=3)  # First 3 pages
+                ocr_text = []
+                for image in images:
+                    text = pytesseract.image_to_string(image)
+                    if text.strip():
+                        ocr_text.append(text)
+
+                if ocr_text:
+                    return "\n".join(ocr_text).strip()
+            except Exception as ocr_err:
+                print(f"OCR not available or failed: {ocr_err}. Continuing without OCR fallback.")
         
         # If still empty, return original extracted text (even if minimal)
         return extracted_text
