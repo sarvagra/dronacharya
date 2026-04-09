@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Career Profile Evaluation Platform
 
 A modern, fully-featured multi-step form for student career profile evaluation with separate frontend and Python backend.
@@ -299,3 +300,4 @@ export default defineConfig([
   },
 ])
 ```
+

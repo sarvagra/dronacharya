@@ -1,0 +1,38 @@
+from typing import Dict
+
+from gemini_llm_backend import generate_career_report, generate_resume
+
+
+def run_career_engine(user_data: str) -> str:
+    """Return semicolon-separated 6-segment career guidance text."""
+    return generate_career_report(user_data=user_data, data_dir="Data")
+
+
+def run_resume_engine(user_data: str) -> str:
+    """Return ATS-oriented plain text resume."""
+    return generate_resume(user_data=user_data, data_dir="Data")
+
+
+def run_all(user_data: str) -> Dict[str, str]:
+    """Single-call wrapper for report + resume."""
+    return {
+        "career_report": run_career_engine(user_data),
+        "resume_text": run_resume_engine(user_data),
+    }
+
+
+if __name__ == "__main__":
+    sample_user_data = (
+        "name: Alex; cgpa: 8.2; skills: python, sql, power bi; "
+        "projects: churn prediction, sales dashboard; "
+        "aim: data + product roles in fintech"
+    )
+
+    try:
+        outputs = run_all(sample_user_data)
+        print("CAREER REPORT")
+        print(outputs["career_report"])
+        print("\nRESUME")
+        print(outputs["resume_text"])
+    except Exception as exc:
+        print(f"Error: {exc}")
