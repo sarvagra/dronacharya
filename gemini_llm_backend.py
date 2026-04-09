@@ -245,16 +245,37 @@ def build_context(df: pd.DataFrame, context_limit_chars: int = 7000) -> str:
     return _cached_context(summary, context_limit_chars=context_limit_chars)
 
 
-def _init_gemini_model(model_name: str = "gemini-1.5-pro"):
+def _resolve_supported_model(requested: str) -> str:
+    fallbacks = [
+        requested,
+        "models/gemini-2.5-flash",
+        "models/gemini-2.0-flash",
+        "models/gemini-pro-latest",
+    ]
+
+    for candidate in fallbacks:
+        try:
+            # Probe model availability with minimal token request.
+            probe = genai.GenerativeModel(model_name=candidate)
+            probe.generate_content("ping", generation_config={"max_output_tokens": 1})
+            return candidate
+        except Exception:
+            continue
+
+    raise ValueError("No supported Gemini model found for generateContent")
+
+
+def _init_gemini_model(model_name: str = "models/gemini-2.5-flash"):
     api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise EnvironmentError("Set GEMINI_API_KEY or GOOGLE_API_KEY in environment")
 
     genai.configure(api_key=api_key)
+    resolved = _resolve_supported_model(model_name)
     try:
-        return genai.GenerativeModel(model_name=model_name, system_instruction=SYSTEM_PROMPT)
+        return genai.GenerativeModel(model_name=resolved, system_instruction=SYSTEM_PROMPT)
     except TypeError:
-        return genai.GenerativeModel(model_name=model_name)
+        return genai.GenerativeModel(model_name=resolved)
 
 
 def _validate_segmented_output(text: str, expected_segments: int = 6) -> bool:
@@ -293,7 +314,7 @@ def _call_with_retry(model, prompt: str, retries: int = 3, temperature: float = 
 def generate_career_report(
     user_data: str,
     data_dir: str = "Data",
-    model_name: str = "gemini-1.5-pro",
+    model_name: str = "models/gemini-2.5-flash",
 ) -> str:
     df = load_dataset(data_dir=data_dir)
     context = build_context(df)
@@ -324,7 +345,7 @@ def generate_career_report(
 def generate_resume(
     user_data: str,
     data_dir: str = "Data",
-    model_name: str = "gemini-1.5-pro",
+    model_name: str = "models/gemini-2.5-flash",
 ) -> str:
     df = load_dataset(data_dir=data_dir)
     context = build_context(df)
@@ -335,7 +356,8 @@ def generate_resume(
         raise EnvironmentError("Set GEMINI_API_KEY or GOOGLE_API_KEY in environment")
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(model_name=model_name)
+    resolved = _resolve_supported_model(model_name)
+    model = genai.GenerativeModel(model_name=resolved)
 
     prompt = (
         RESUME_PROMPT

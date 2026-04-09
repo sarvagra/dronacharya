@@ -1,23 +1,25 @@
+import os
 from typing import Dict
 
-from gemini_llm_backend import generate_career_report, generate_resume
+from groq_llm_backend import generate_career_report, generate_resume, run_all as groq_run_all
 
 
 def run_career_engine(user_data: str) -> str:
     """Return semicolon-separated 6-segment career guidance text."""
-    return generate_career_report(user_data=user_data, data_dir="Data")
+    return generate_career_report(user_data)
 
 
 def run_resume_engine(user_data: str) -> str:
     """Return ATS-oriented plain text resume."""
-    return generate_resume(user_data=user_data, data_dir="Data")
+    return generate_resume(user_data)
 
 
 def run_all(user_data: str) -> Dict[str, str]:
-    """Single-call wrapper for report + resume."""
+    """Single-call wrapper for report + resume using Groq."""
+    result = groq_run_all(user_data)
     return {
-        "career_report": run_career_engine(user_data),
-        "resume_text": run_resume_engine(user_data),
+        "career_report": result["careerReport"],
+        "resume_text": result["resume"],
     }
 
 

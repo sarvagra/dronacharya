@@ -7,35 +7,106 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">🎓 CareerVault</div>
-            <button class="theme-toggle" id="themeToggle">🌙</button>
-        </header>
-
-        <div class="main-content">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <div class="progress-bar">
-                    <div class="progress-text">Progress</div>
-                    <div class="progress-fill">
-                        <div class="progress-bar-inner" id="progressBarInner" style="width: 0%"></div>
-                    </div>
+    <div class="app-shell">
+        <div class="shell-glow shell-glow-a"></div>
+        <div class="shell-glow shell-glow-b"></div>
+        <header class="topbar">
+            <div class="brand-lockup">
+                <div class="brand-mark">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="brandGradient" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#2563eb" />
+                                <stop offset="100%" stop-color="#7c3aed" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="30" fill="url(#brandGradient)" />
+                        <path d="M20 18h24v8H28v4h14v8H28v8h-8V18z" fill="#fff" />
+                    </svg>
                 </div>
-
-                <div class="steps">
-                    <div class="step-item active" data-step="1">Personal Profile</div>
-                    <div class="step-item" data-step="2">Career Goal</div>
-                    <div class="step-item" data-step="3">Skills & Tools</div>
-                    <div class="step-item" data-step="4">Projects</div>
-                    <div class="step-item" data-step="5">Academic Details</div>
-                    <div class="step-item" data-step="6">Resume & Links</div>
+                <div>
+                    <div class="brand-title">Dronacharya</div>
+                    <div class="brand-subtitle">Career strategy studio for students</div>
                 </div>
             </div>
+            <button class="theme-toggle topbar-toggle" id="themeToggle">Dark</button>
+        </header>
 
-            <!-- Form Container -->
-            <div class="form-container">
-                <form id="mainForm">
+        <section class="hero-panel">
+            <div class="hero-copy">
+                <div class="eyebrow">Placement intelligence · Resume craft · MNC targeting</div>
+                <h1>Build a placement-ready profile with one clean workflow.</h1>
+                <p>
+                    Submit your academic profile, get a polished resume-style output, and explore concise action cards for GitHub,
+                    projects, deadlines, target companies, and must-learn topics.
+                </p>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span>Relax, no third party fluff.</span>
+                    <strong>No recommendations using linkedin, internshala etc</strong>
+                </div>
+                <div class="stat-card">
+                    <span>Pin-Point Precision</span>
+                    <strong>6 guided tracks</strong>
+                </div>
+                <div class="stat-card">
+                    <span>We got you!</span>
+                    <strong>Structured output cards</strong>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="sidebar-panel">
+                    <div class="progress-bar">
+                        <div class="progress-text">Progress</div>
+                        <div class="progress-fill">
+                            <div class="progress-bar-inner" id="progressBarInner" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step-item active" data-step="1">Personal Profile</div>
+                        <div class="step-item" data-step="2">AIM</div>
+                        <div class="step-item" data-step="3">Skills</div>
+                        <div class="step-item" data-step="4">Projects</div>
+                        <div class="step-item" data-step="5">University Data</div>
+                        <div class="step-item" data-step="6">Resume + Reality Check</div>
+                    </div>
+
+                    <div id="sidebarActionButtons" class="action-hub sidebar-action-hub" style="display: none; margin-top: 16px;">
+                        <div class="action-hub-header">
+                            <h3>Next Actions</h3>
+                            <p>Click a track to generate structured output.</p>
+                        </div>
+                        <div class="action-grid">
+                            <button type="button" class="btn btn-info action-btn" data-action="dream-cv">
+                                <span class="action-icon">📄</span><span>Dream Resume</span>
+                            </button>
+                            <button type="button" class="btn btn-info action-btn" data-action="github">
+                                <span class="action-icon">🐙</span><span>GitHub Recommendations</span>
+                            </button>
+                            <button type="button" class="btn btn-info action-btn" data-action="projects">
+                                <span class="action-icon">💼</span><span>Project Suggestions</span>
+                            </button>
+                            <button type="button" class="btn btn-info action-btn" data-action="deadlines">
+                                <span class="action-icon">⏰</span><span>Strict Action Plan & Deadlines</span>
+                            </button>
+                            <button type="button" class="btn btn-info action-btn" data-action="mnc-openings">
+                                <span class="action-icon">🏢</span><span>Top MNC Job Analysis</span>
+                            </button>
+                            <button type="button" class="btn btn-info action-btn" data-action="topics">
+                                <span class="action-icon">🎯</span><span>Must-Learn Topics</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="form-container">
+                <form id="mainForm" novalidate action="javascript:void(0);" method="post" onsubmit="return false;">
                     <!-- Step 1: Personal Profile -->
                     <div class="form-step active" data-step="1">
                         <div class="form-title">Personal & Academic Profile</div>
@@ -134,8 +205,8 @@
 
                         <div class="form-group form-row full">
                             <label>Career Objective <span class="required">*</span></label>
-                            <textarea name="aim" placeholder="Describe your career goals (max 150 words)" maxlength="150" required></textarea>
-                            <div class="input-helper"><span id="aimCount">0</span>/150 words</div>
+                               <textarea name="aim" placeholder="Describe your career goals (max 250 characters)" maxlength="250" required></textarea>
+                               <div class="input-helper"><span id="aimCount">0</span>/250 characters</div>
                         </div>
 
                         <div class="form-group">
@@ -370,33 +441,8 @@
                         <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
 
                         <div class="form-title" style="font-size: 18px; margin-bottom: 20px;">Subject-wise Marks</div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>DSA</label>
-                                <input type="number" name="subjectDSA" min="0" max="100">
-                            </div>
-                            <div class="form-group">
-                                <label>DBMS</label>
-                                <input type="number" name="subjectDBMS" min="0" max="100">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>OS</label>
-                                <input type="number" name="subjectOS" min="0" max="100">
-                            </div>
-                            <div class="form-group">
-                                <label>Computer Networks</label>
-                                <input type="number" name="subjectCN" min="0" max="100">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>OOP</label>
-                            <input type="number" name="subjectOOP" min="0" max="100">
-                        </div>
+                        <div id="subjectsList"></div>
+                        <button type="button" class="btn btn-secondary" id="addSubjectBtn" style="margin-bottom: 16px;">+ Add Subject</button>
 
                         <div class="form-group">
                             <label>Attendance (%)</label>
@@ -407,7 +453,7 @@
                     <!-- Step 6: Resume & Profiles -->
                     <div class="form-step" data-step="6">
                         <div class="form-title">Resume & Online Profiles</div>
-                        <div class="form-subtitle">Help recruiters find you easily</div>
+                        <div class="form-subtitle">Resume evaluation and fake-job reality check</div>
 
                         <div class="form-group form-row full">
                             <label>Resume (PDF)</label>
@@ -425,6 +471,17 @@
                             <label>Portfolio Website</label>
                             <input type="url" name="portfolioUrl" placeholder="https://yourportfolio.com">
                         </div>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-title" style="font-size: 18px; margin-bottom: 20px;">Resume Text Evaluation</div>
+                        <div class="form-group form-row full">
+                            <label>ATS Evaluation from Uploaded PDF</label>
+                            <div class="input-helper">We will extract text from your uploaded PDF resume and compute ATS score + grade (A/B/C).</div>
+                        </div>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
                     </div>
 
                     <!-- Form Actions -->
@@ -433,10 +490,12 @@
                         <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
                     </div>
                 </form>
-            </div>
+
+                <div id="resultContainer" class="results-grid" style="display: none;"></div>
+            </main>
         </div>
     </div>
 
-    <script src="../script.js"></script>
+    <script src="./script.js?v=20260410-structured-clean-v3"></script>
 </body>
 </html>
