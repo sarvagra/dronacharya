@@ -25,7 +25,7 @@ try:
 except Exception:
     pytesseract = None
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 from llm_service_wrapper import run_all
@@ -748,6 +748,21 @@ def get_profiles() -> Tuple[Any, int]:
 @app.route("/api/health", methods=["GET"])
 def health_check() -> Tuple[Any, int]:
     return jsonify({"status": "ok", "dataset": str(DATA_PATH), "time": datetime.utcnow().isoformat()}), 200
+
+
+@app.route("/", methods=["GET"])
+def serve_index() -> Any:
+    html_dir = BASE_DIR / "html"
+    return send_from_directory(str(html_dir), "index.html")
+
+
+@app.route("/<path:filename>", methods=["GET"])
+def serve_static_files(filename: str) -> Any:
+    html_dir = BASE_DIR / "html"
+    file_path = html_dir / filename
+    if file_path.exists() and file_path.is_file():
+        return send_from_directory(str(html_dir), filename)
+    return jsonify({"success": False, "error": "Not found"}), 404
 
 
 # ============================================================================

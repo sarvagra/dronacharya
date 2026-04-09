@@ -1,6 +1,16 @@
 const API_BASE_URL = (() => {
+    if (window.__API_BASE_URL__) {
+        return String(window.__API_BASE_URL__).replace(/\/$/, "");
+    }
+
     const host = window.location.hostname || "127.0.0.1";
-    return `http://${host}:5000/api`;
+    const isLocal = host === "127.0.0.1" || host === "localhost";
+
+    if (isLocal) {
+        return `http://${host}:5000/api`;
+    }
+
+    return `${window.location.origin}/api`;
 })();
 
 let currentStep = 1;
